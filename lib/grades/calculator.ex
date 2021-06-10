@@ -14,7 +14,7 @@ defmodule Grades.Calculator do
       else
         Enum.sum(labs) / Enum.count(labs)
       end
-    {avg_homework, avg_labs}
+     {avg_homework, avg_labs}
   end
 
   # QUESTION 2.2 HELPER METHOD FAILED_TO_PARTICIPATE?
@@ -22,10 +22,15 @@ defmodule Grades.Calculator do
     avg_homework < 0.4 || avg_exams < 0.4 || num_labs < 3
   end
 
+  # QUESTION 2.3 HELPER METHOD CALCULATE_GRADE
+  def calculate_grade(avg_homework, avg_labs, midterm, final) do
+    0.2 * avg_labs + 0.3 * avg_homework + 0.2 * midterm + 0.3 * final
+  end
+
   def percentage_grade(%{homework: homework, labs: labs, midterm: midterm, final: final}) do
     {avg_homework, avg_labs} = avg(homework, labs)
 
-    mark = 0.2 * avg_labs + 0.3 * avg_homework + 0.2 * midterm + 0.3 * final
+    mark = calculate_grade(avg_homework, avg_labs, midterm, final)
     round(mark * 100)
   end
 
@@ -42,7 +47,7 @@ defmodule Grades.Calculator do
     if failed_to_participate?(avg_homework, avg_exams, num_labs) do
       "EIN"
     else
-      mark = 0.2 * avg_labs + 0.3 * avg_homework + 0.2 * midterm + 0.3 * final
+      mark = calculate_grade(avg_homework, avg_labs, midterm, final)
 
       cond do
         mark > 0.895 -> "A+"
@@ -73,7 +78,7 @@ defmodule Grades.Calculator do
     if failed_to_participate?(avg_homework, avg_exams, num_labs) do
       0
     else
-      mark = 0.2 * avg_labs + 0.3 * avg_homework + 0.2 * midterm + 0.3 * final
+      mark = calculate_grade(avg_homework, avg_labs, midterm, final)
 
       cond do
         mark > 0.895 -> 10
