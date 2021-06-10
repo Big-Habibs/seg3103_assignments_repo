@@ -34,10 +34,15 @@ defmodule Grades.Calculator do
     round(mark * 100)
   end
 
+  # QUESTION 2.4 HELPER METHOD AVERAGE_EXAMS
+  def average_exams(midterm, final) do
+    (midterm + final) / 2
+  end
+
   def letter_grade(%{homework: homework, labs: labs, midterm: midterm, final: final}) do
     {avg_homework, avg_labs} = avg(homework, labs)
 
-    avg_exams = (midterm + final) / 2
+    avg_exams = average_exams(midterm, final)
 
     num_labs =
       labs
@@ -68,7 +73,7 @@ defmodule Grades.Calculator do
   def numeric_grade(%{homework: homework, labs: labs, midterm: midterm, final: final}) do
     {avg_homework, avg_labs} = avg(homework, labs)
 
-    avg_exams = (midterm + final) / 2
+    avg_exams = average_exams(midterm, final)
 
     num_labs =
       labs
