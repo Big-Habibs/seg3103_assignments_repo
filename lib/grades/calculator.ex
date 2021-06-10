@@ -39,15 +39,19 @@ defmodule Grades.Calculator do
     (midterm + final) / 2
   end
 
+  # QUESTION 2.4 HELPER METHOD NUMBER_OF_LABS
+  def number_of_labs(labs) do
+    labs
+    |> Enum.reject(fn mark -> mark < 0.25 end)
+    |> Enum.count()
+  end
+
   def letter_grade(%{homework: homework, labs: labs, midterm: midterm, final: final}) do
     {avg_homework, avg_labs} = avg(homework, labs)
 
     avg_exams = average_exams(midterm, final)
 
-    num_labs =
-      labs
-      |> Enum.reject(fn mark -> mark < 0.25 end)
-      |> Enum.count()
+    num_labs = number_of_labs(labs)
 
     if failed_to_participate?(avg_homework, avg_exams, num_labs) do
       "EIN"
@@ -75,10 +79,7 @@ defmodule Grades.Calculator do
 
     avg_exams = average_exams(midterm, final)
 
-    num_labs =
-      labs
-      |> Enum.reject(fn mark -> mark < 0.25 end)
-      |> Enum.count()
+    num_labs = number_of_labs(labs)
 
     if failed_to_participate?(avg_homework, avg_exams, num_labs) do
       0
